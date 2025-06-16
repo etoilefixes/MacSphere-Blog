@@ -1,0 +1,66 @@
+
+.customCursor {
+  --cursor-size: 8px; /* Inner dot size */
+  --cursor-outline-size: 30px; /* Outer ring size */
+  --cursor-color: hsl(var(--foreground)); /* Use theme foreground color */
+  --cursor-outline-color: hsla(var(--foreground), 0.2); /* Use theme foreground with alpha */
+  --cursor-interactive-color: hsl(var(--interactive-color-hsl, 258 100% 71%)); /* Fallback to #8A6DFF */
+  --cursor-interactive-outline-color: hsla(var(--interactive-color-hsl, 258 100% 71%), 0.3);
+
+
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: width 0.15s ease-out, height 0.15s ease-out, background-color 0.15s ease-out, opacity 0.15s ease-out, transform 0.1s ease-out; /* Added transform transition */
+  
+  width: var(--cursor-outline-size);
+  height: var(--cursor-outline-size);
+  border-radius: 50%;
+  background-color: var(--cursor-outline-color); /* Outer ring for normal state */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0; /* Hidden by default, made visible by .visible class */
+}
+
+.customCursor.visible {
+  opacity: 1;
+}
+
+.customCursor.hidden {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+
+.cursorDot {
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  background-color: var(--cursor-color);
+  border-radius: 50%;
+  transition: transform 0.1s ease-out, background-color 0.15s ease-out; /* Adjusted transform transition */
+}
+
+.customCursor.clicked {
+  /* Outer ring scales down more and becomes slightly more transparent */
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0.7; /* Slightly reduce opacity for a softer click feel */
+}
+
+.customCursor.clicked .cursorDot {
+   /* Inner dot scales down more significantly */
+   transform: scale(0.4);
+}
+
+.customCursor.interactive {
+  width: calc(var(--cursor-outline-size) * 1.2);
+  height: calc(var(--cursor-outline-size) * 1.2);
+  background-color: var(--cursor-interactive-outline-color); /* Outer ring turns interactive color */
+}
+
+.customCursor.interactive .cursorDot {
+  transform: scale(0.7); /* Inner dot might shrink or change shape */
+  background-color: var(--cursor-interactive-color); /* Inner dot also takes interactive color */
+}

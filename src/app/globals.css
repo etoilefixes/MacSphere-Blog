@@ -1,0 +1,207 @@
+@import '../styles/fonts.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 97%; /* Very light gray-blue, slightly off-white */
+    --foreground: 220 20% 10%; /* Darker: almost black for max contrast */
+    --card: 0 0% 100%; /* Pure white for cards */
+    --card-foreground: 220 20% 10%; /* Matches main foreground */
+    --popover: 0 0% 100%; /* Pure white for popovers */
+    --popover-foreground: 220 20% 10%; /* Matches main foreground */
+    --primary: 210 90% 50%; /* Default Blueish Accent */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 15% 92%; /* Lighter secondary for subtle differentiation */
+    --secondary-foreground: 220 15% 20%; /* Darker secondary text */
+    --muted: 220 15% 90%; /* Muted elements background */
+    --muted-foreground: 220 15% 25%; /* Darker muted text, good contrast on muted bg */
+    --accent: 220 15% 92%; /* Matches secondary */
+    --accent-foreground: 220 15% 20%; /* Matches darker secondary-foreground */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 15% 85%; /* Slightly softer border */
+    --input: 220 15% 85%; /* Matches border */
+    --ring: 210 90% 50%;
+    --radius: 0.5rem;
+
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+
+    /* Fixed Interactive Colors */
+    --interactive-color-hsl: 258 100% 71%; /* #8A6DFF */
+    --highlight-color-hsl: 169 89% 61%; /* #40F5D3 */
+
+    /* Glassmorphism Vars */
+    --glass-bg-light: rgba(255, 255, 255, 0.35);
+    --glass-border-light: rgba(255, 255, 255, 0.6);
+    --glass-shadow-inset-light: rgba(255,255,255,0.5);
+
+    --glass-bg-dark: rgba(40, 40, 40, 0.45);
+    --glass-border-dark: rgba(70, 70, 70, 0.6);
+    --glass-shadow-inset-dark: rgba(70,70,70,0.5);
+
+    --glass-bg: var(--glass-bg-light);
+    --glass-border: var(--glass-border-light);
+    --glass-shadow-inset: var(--glass-shadow-inset-light);
+  }
+
+  .dark {
+    --background: 220 15% 20%; /* Lightened dark background */
+    --foreground: 220 10% 85%;
+    --card: 220 15% 25%; /* Lightened card background for dark mode */
+    --card-foreground: 220 10% 85%;
+    --popover: 220 15% 25%; /* Lightened popover background for dark mode */
+    --popover-foreground: 220 10% 85%;
+    --primary: 210 90% 60%;
+    --primary-foreground: 0 0% 10%;
+    --secondary: 220 15% 25%; /* Matches new card background */
+    --secondary-foreground: 220 10% 85%;
+    --muted: 220 15% 30%; /* Kept slightly lighter than card/secondary */
+    --muted-foreground: 220 10% 75%; 
+    --accent: 220 15% 25%;
+    --accent-foreground: 220 10% 85%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 15% 35%;
+    --input: 220 15% 35%;
+    --ring: 210 90% 60%;
+    
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+
+    --glass-bg: var(--glass-bg-dark);
+    --glass-border: var(--glass-border-dark);
+    --glass-shadow-inset: var(--glass-shadow-inset-dark);
+  }
+
+  /* Base styles */
+  * {
+    @apply border-border;
+  }
+
+  html,
+  body {
+    cursor: none !important;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-size: clamp(1rem, 1.5vw + 8px, 1.2rem);
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  label,
+  [role="button"],
+  [role="link"],
+  [contenteditable="true"],
+  summary,
+  details,
+  option,
+  optgroup,
+  video[controls],
+  audio[controls],
+  [data-radix-collection-item], 
+  [data-radix-focus-guard]
+   {
+    cursor: none !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline;
+  }
+}
+
+@layer components {
+  .glassmorphic {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: inset 0 0 3px var(--glass-shadow-inset);
+  }
+
+  @supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
+    .glassmorphic {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+  }
+
+  @supports not ((backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px))) {
+    .glassmorphic-fallback-noise {
+      background-image: linear-gradient(transparent, transparent), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+  }
+
+  .button-spring {
+    transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .button-spring:active {
+    transform: scale(0.95);
+  }
+
+  .tab-switch-animation {
+    transition-property: transform, opacity;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.68, 0, 0.32, 1.6);
+  }
+
+  .nav-link-interactive {
+    position: relative;
+    padding-bottom: 4px; 
+  }
+
+  .nav-link-interactive::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0; 
+    width: 0; 
+    height: 2px;
+    background-color: hsl(var(--primary)); 
+    transition: width 0.25s ease-out;
+  }
+
+  .nav-link-interactive:hover::after {
+    width: 100%; 
+  }
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+}
+
+@keyframes genie-in {
+  from { transform: scale(0.1) translateY(80vh) skewX(30deg) rotateZ(-15deg); opacity: 0; }
+  to { transform: scale(1) translateY(0) skewX(0deg) rotateZ(0deg); opacity: 1; }
+}
+
+.animate-genie-in {
+  animation: genie-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.card-tilt {
+  transition: transform 0.3s ease-out;
+  transform-style: preserve-3d;
+}
+.card-tilt:hover {
+  /* Dynamic tilt based on mouse position is handled by JS in ArticleCard.tsx */
+}
+
